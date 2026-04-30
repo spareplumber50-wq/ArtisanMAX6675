@@ -1,3 +1,5 @@
+Replicated script.
+
 Ereta: MAX 6675 NO LONGER WORKS WITH THE INDUSTRIAL SHIELDS TOUCHBERRY PI 
 
 use the Adafruits repository instead
