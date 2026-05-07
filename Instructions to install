@@ -1,0 +1,62 @@
+Dependansies:
+
+  pip install adafruit-circuitpython-mcp9600 --break-system-packages
+  sudo apt install i2c-tools
+
+  sudo raspi-config
+
+  Go to Interface Options → I2C → Enable.
+
+
+
+Instructions:
+
+Download the pakage and create a new folder for the programs, (Recommended to make a new folder under home directory.)
+and extract the zip.
+
+After this Install Artisan for bookworm using flakpack.
+
+  flatpak install flathub org.artisan_scope.artisan
+
+  then run : 
+
+  flatpak run org.artisan_scope.artisan
+
+Setup a new crontab for the services:
+
+Test them with:
+  nohup python3 /home/pi/(YOUR_DIRECTORY)/sensor_server.py > /tmp/sensor_server.log 2>&1 &
+  nohup python3 /home/pi/(YOUR_DIRECTORY)/dac_server.py > /tmp/dac_server.log 2>&1 &
+
+After that reboot and make a new crontab:
+  run: crontab -e
+  Add this and save:
+  
+    @reboot nohup python3 /home/pi/(YOUR_DIRECTORY)/sensor_server.py > /tmp/sensor_server.log 2>&1 &
+    @reboot nohup python3 /home/pi/(YOUR_DIRECTORY)/dac_server.py > /tmp/dac_server.log 2>&1 &
+
+After that check if the addresses line up using:
+  i2cdetect -y 1:
+
+  The DAC is under 58.
+  The two sensors is under 67 and 60.
+
+In Artisan go enable advanced settings and navigate to the devices,section under setup, look for programs,
+
+  under extrenal enable prog and set the input to where the programs are located, (the driver of this package) and select the tempreading.py as the input
+  under out.py set it to the artisan_output.py.
+
+Check if everything is do right in contab becuse the services are vital for Artisan to communicate with the hardware because of the nature of the install, 
+Artisan is running in a sandboxed environment and isn't able to read or write to i2c devices.
+
+These scripts bypass this by writing to extrenal txt files which Artisan can access.
+
+you are allowed to modify this code #remixculture.
+  but you must acredit the author, when releasing community modifications and or other products related/built off of these scripts.
+
+All solutions of the IP is property of Spareplumber50(AKA RFouche).
+
+
+Author:
+  Spareplumber50(AKA RFouche)
+
